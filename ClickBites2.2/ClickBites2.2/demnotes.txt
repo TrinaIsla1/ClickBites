@@ -1,0 +1,16 @@
+terminal 1
+
+npm run server
+
+
+2. __Start the Frontend Website__ (in terminal #2):
+
+   npm run dev
+
+
+
+
+### 🔑 Demo Admin Login
+
+- __Email:__ `admin@clickbites.local`
+- __Password:__ `Admin123!`
