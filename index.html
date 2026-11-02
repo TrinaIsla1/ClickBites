@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Discover local food shops and products in Calbayog City with ClickBites."
+    />
+    <title>ClickBites — Discover Local Food</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="announcement">
+      Discover local flavors in Calbayog City
+      <span>Support Local. Eat Local.</span>
+    </div>
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="ClickBites home"
+        ><span class="brand-mark" aria-hidden="true"><img src="logo.jpg" alt=""></span><span
+          >Click<span>Bites</span
+          ><small>Discover. Local. Delicious.</small></span
+        ></a
+      >
+      <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">
+        <svg viewBox="0 0 24 24" class="icon-svg">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      <!-- In index.html, update the <nav id="mainNav"> section to this: -->
+      <nav id="mainNav" aria-label="Main navigation">
+        <a href="#home" data-page="home">Discover</a>
+        <a href="#search" data-page="search">Find food</a>
+        <a href="#shops" data-page="shops">Shops</a>
+      </nav>
+      <div class="nav-actions" id="navActions"></div>
+    </header>
+
+    <main id="app" tabindex="-1"></main>
+
+    <footer class="footer">
+      <a class="brand footer-brand" href="#home"
+        ><span class="brand-mark" aria-hidden="true"><img src="logo.jpg" alt=""></span><span
+          >Click<span>Bites</span
+          ><small>Discover. Local. Delicious.</small></span
+        ></a
+      >
+      <p>Helping Calbayog City discover and support local food businesses.</p>
+      <small class="footer-copy"
+        >© 2026 ClickBites · Food discovery and business promotion only.</small
+      >
+    </footer>
+
+    <!-- Floating Quick View Modal Overlay -->
+    <div class="modal-overlay" id="quickViewModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-card">
+        <button class="modal-close" data-act="closeModal" aria-label="Close details">&times;</button>
+        <div class="modal-body" id="modalBody"></div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="vendor/supabase.js"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
