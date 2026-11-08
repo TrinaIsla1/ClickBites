@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import Icon from "./Icon";
-import { useApp } from "../context/AppContext";
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import Icon from './Icon'
+import { useApp } from '../context/AppContext'
 
 const hide = (e) => {
-  e.currentTarget.style.visibility = "hidden";
-};
+  e.currentTarget.style.visibility = 'hidden'
+}
 
 /* Image with a placeholder when there is no src (and hides itself if the file is broken) */
 export function Photo({ src, alt }) {
@@ -15,37 +15,43 @@ export function Photo({ src, alt }) {
     <div className="ph" role="img" aria-label={alt}>
       <Icon name="utensils" />
     </div>
-  );
+  )
 }
 
 export function Rate({ bid }) {
-  const { avg } = useApp();
-  const r = avg(bid);
+  const { avg } = useApp()
+  const r = avg(bid)
   return r.n ? (
     <>
       <span className="stars">
         <Icon name="star" /> {r.a.toFixed(1)}
-      </span>{" "}
+      </span>{' '}
       <span className="muted">({r.n} verified)</span>
     </>
   ) : (
     <span className="muted">No verified ratings yet</span>
-  );
+  )
 }
 
 /* One back-link used on every page: small, top-left, above the page content */
-export function BackLink({ onClick, label = "Back" }) {
+export function BackLink({ onClick, label = 'Back' }) {
   return (
     <div className="page-back">
-      <button type="button" className="back-link" onClick={onClick} aria-label={label} title={label}>
+      <button
+        type="button"
+        className="back-link"
+        onClick={onClick}
+        aria-label={label}
+        title={label}
+      >
         <Icon name="arrow-left" />
         <span>{label}</span>
       </button>
     </div>
-  );
+  )
 }
 
-export function PageTitle({ eyebrow, title, sub = "" }) {
+export function PageTitle({ eyebrow, title, sub = '' }) {
   return (
     <div className="section-head">
       <div>
@@ -58,7 +64,7 @@ export function PageTitle({ eyebrow, title, sub = "" }) {
         ) : null}
       </div>
     </div>
-  );
+  )
 }
 
 export function EmptyBox({ icon, title, text, children }) {
@@ -71,7 +77,7 @@ export function EmptyBox({ icon, title, text, children }) {
       <p className="muted">{text}</p>
       {children}
     </div>
-  );
+  )
 }
 
 export const Skeleton = () => (
@@ -80,30 +86,34 @@ export const Skeleton = () => (
       <div className="sk" key={i} />
     ))}
   </div>
-);
+)
 
 export const Field = ({ label, children }) => (
   <div className="field">
     <label>{label}</label>
     {children}
   </div>
-);
+)
 
-export function PasswordInput({ name, placeholder = "" }) {
-  const [show, setShow] = useState(false);
+export function PasswordInput({ name, placeholder = '' }) {
+  const [show, setShow] = useState(false)
   return (
     <div className="password-wrap">
-      <input name={name} type={show ? "text" : "password"} placeholder={placeholder} />
+      <input
+        name={name}
+        type={show ? 'text' : 'password'}
+        placeholder={placeholder}
+      />
       <button
         type="button"
         className="password-toggle"
         onClick={() => setShow(!show)}
-        aria-label={show ? "Hide password" : "Show password"}
+        aria-label={show ? 'Hide password' : 'Show password'}
       >
-        {show ? "Hide" : "Show"}
+        {show ? 'Hide' : 'Show'}
       </button>
     </div>
-  );
+  )
 }
 export function DataTable({ head, rows, empty }) {
   return (
@@ -129,16 +139,16 @@ export function DataTable({ head, rows, empty }) {
         </tbody>
       </table>
     </div>
-  );
+  )
 }
 
-export const Stat = ({ label, value, sub = "" }) => (
+export const Stat = ({ label, value, sub = '' }) => (
   <div className="stat">
     <span>{label}</span>
     <strong>{value}</strong>
     <span>{sub}</span>
   </div>
-);
+)
 
 export function DashHead({ eyebrow, title, sub, children }) {
   return (
@@ -152,39 +162,116 @@ export function DashHead({ eyebrow, title, sub, children }) {
       </div>
       {children}
     </div>
-  );
+  )
 }
 
 export function Sidebar({ base, items, tab, back = null }) {
-  const { go, logout } = useApp();
+  const { go, logout } = useApp()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const current = items.find(([k]) => k === tab) || items[0]
   return (
-    <aside className="sidebar">
-      {back ? (
-        <button type="button" className="side-back" onClick={() => go(back.go)} aria-label={back.label} title={back.label}>
-          <Icon name="arrow-left" />
+    <>
+      {/* Phone version: small bar with the page title and a three-dot menu */}
+      <div className="side-mobile">
+        {back ? (
+          <button
+            type="button"
+            className="side-mobile-btn"
+            onClick={() => go(back.go)}
+            aria-label={back.label}
+            title={back.label}
+          >
+            <Icon name="arrow-left" />
+          </button>
+        ) : null}
+        <strong className="side-mobile-title">
+          {current ? current[1] : ''}
+        </strong>
+        <button
+          type="button"
+          className="side-mobile-btn"
+          onClick={() => setMenuOpen((o) => !o)}
+          aria-label="Menu"
+          aria-expanded={menuOpen}
+        >
+          <svg viewBox="0 0 24 24" className="dots-svg" aria-hidden="true">
+            <circle cx="12" cy="5" r="2" />
+            <circle cx="12" cy="12" r="2" />
+            <circle cx="12" cy="19" r="2" />
+          </svg>
         </button>
-      ) : null}
-      <div className="brand">
-        <span className="brand-mark">
-          <img src="/logo.jpg" alt="" />
-        </span>
-        <span>ClickBites</span>
+        {menuOpen ? (
+          <>
+            <div
+              className="side-mobile-backdrop"
+              onClick={() => setMenuOpen(false)}
+            />
+            <div className="side-mobile-menu">
+              {items.map(([k, l, ic]) => (
+                <Link
+                  key={k}
+                  to={`/${base}/${k}`}
+                  className={tab === k ? 'active' : ''}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <Icon name={ic} /> {l}
+                </Link>
+              ))}
+              <a
+                href="#"
+                className="out"
+                onClick={(e) => {
+                  e.preventDefault()
+                  setMenuOpen(false)
+                  logout()
+                }}
+              >
+                <Icon name="logout" /> Log out
+              </a>
+            </div>
+          </>
+        ) : null}
       </div>
-      {items.map(([k, l, ic]) => (
-        <Link key={k} to={`/${base}/${k}`} className={tab === k ? "active" : ""}>
-          <Icon name={ic} /> {l}
-        </Link>
-      ))}
-      <a
-        href="#"
-        className="out"
-        onClick={(e) => {
-          e.preventDefault();
-          logout();
-        }}
-      >
-        <Icon name="logout" /> Log out
-      </a>
-    </aside>
-  );
+
+      {/* Desktop version: the orange sidebar (hidden on phones) */}
+      <aside className="sidebar">
+        {back ? (
+          <button
+            type="button"
+            className="side-back"
+            onClick={() => go(back.go)}
+            aria-label={back.label}
+            title={back.label}
+          >
+            <Icon name="arrow-left" />
+          </button>
+        ) : null}
+        <div className="brand">
+          <span className="brand-mark">
+            <img src="/logo.jpg" alt="" />
+          </span>
+          <span>ClickBites</span>
+        </div>
+        {items.map(([k, l, ic]) => (
+          <Link
+            key={k}
+            to={`/${base}/${k}`}
+            className={tab === k ? 'active' : ''}
+          >
+            <Icon name={ic} /> {l}
+          </Link>
+        ))}
+        <a
+          href="#"
+          className="out"
+          onClick={(e) => {
+            e.preventDefault()
+            logout()
+          }}
+        >
+          <Icon name="logout" /> Log out
+        </a>
+      </aside>
+    </>
+  )
 }

@@ -81,7 +81,7 @@ svg {
   padding: 0 2vw;
   gap: clamp(12px, 2vw, 24px);
   position: relative;
-  z-index: 20;
+  z-index: 60;
 }
 
 .brand {
@@ -2279,4 +2279,396 @@ button.link {
     grid-column: 3;
     justify-self: end;
   }
+}
+
+/* ==========================================
+   MOBILE FIXES (phones)
+   ========================================== */
+@media (max-width: 720px) {
+  /* Dashboard menu: one tidy row, no sideways scrolling */
+  .sidebar {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: visible;
+    gap: 4px;
+    padding: 6px;
+    border-radius: 14px;
+  }
+
+  .sidebar .side-back {
+    position: static;
+    flex: 0 0 38px;
+    width: 38px;
+    height: auto;
+    min-height: 44px;
+    align-self: stretch;
+    border-radius: 10px;
+    background: transparent;
+  }
+
+  .sidebar a {
+    flex: 1 1 0;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 2px;
+    border-radius: 10px;
+    font-size: 11px;
+    line-height: 1.15;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .sidebar a .icon-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .sidebar a.out {
+    border-left: 0;
+  }
+
+  /* Food cards: 2 per row */
+  .food-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .food-grid.shop-list {
+    grid-template-columns: 1fr;
+  }
+
+  .food-card:hover {
+    transform: none;
+  }
+
+  .food-photo {
+    aspect-ratio: 4 / 3;
+  }
+
+  .food-photo .status-badge {
+    bottom: 6px;
+    left: 6px;
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+
+  .food-card .tag {
+    top: 6px;
+    left: 6px;
+    max-width: calc(100% - 44px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .food-card .heart {
+    top: 6px;
+    right: 6px;
+    width: 26px;
+    height: 26px;
+  }
+
+  .food-info {
+    padding: 10px;
+  }
+
+  .food-info h3 {
+    font-size: 13px;
+    margin: 4px 0;
+  }
+
+  .food-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    font-size: 10px;
+  }
+
+  .food-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .food-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .food-footer .price {
+    font-size: 14px;
+  }
+
+  .food-footer .view-link {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+}
+
+/* ==========================================
+   PHONE: three-dot dashboard menu + filter sheet
+   ========================================== */
+
+/* hidden on laptop */
+.side-mobile,
+.filter-btn,
+.filter-done,
+.filter-backdrop {
+  display: none;
+}
+
+.results-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 720px) {
+  /* Dashboard: small title bar + three dots instead of the orange bar */
+  .sidebar {
+    display: none;
+  }
+
+  .side-mobile {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    z-index: 30;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 6px 8px;
+  }
+
+  .side-mobile-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 15px;
+    color: var(--navy);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .side-mobile-btn {
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--navy);
+    cursor: pointer;
+  }
+
+  .side-mobile-btn:active {
+    background: var(--cream);
+  }
+
+  .dots-svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+  }
+
+  .side-mobile-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background: transparent;
+  }
+
+  .side-mobile-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 2;
+    min-width: 190px;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 6px;
+  }
+
+  .side-mobile-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 12px;
+    border-radius: 8px;
+    color: var(--charcoal);
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .side-mobile-menu a.active {
+    background: var(--cream);
+    color: var(--navy);
+  }
+
+  .side-mobile-menu a.out {
+    margin-top: 4px;
+    border-top: 1px solid var(--line);
+    border-radius: 0 0 8px 8px;
+  }
+
+  /* Find Food: Filter button + bottom sheet (like Shopee) */
+  .results-tools {
+    width: 100%;
+  }
+
+  .results-tools > * {
+    flex: 1;
+  }
+
+  .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .filters-top-bar {
+    display: none;
+  }
+
+  .filters-top-bar.open {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90;
+    margin: 0 !important;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 18px 18px 0 0;
+    padding: 16px 16px 20px;
+    box-shadow: 0 -8px 30px rgba(13, 27, 61, 0.18);
+  }
+
+  .filter-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  .filter-done {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================
+   Hamburger menu items + Shops 2-per-row (phones)
+   ========================================== */
+
+/* hidden on laptop, where the buttons are already in the top bar */
+.topbar nav a.nav-mobile-only {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  /* Log in / Sign up / Dashboard inside the hamburger menu */
+  .topbar nav a.nav-mobile-only {
+    display: block;
+  }
+
+  /* hide the duplicate Log in button next to the hamburger (remove this rule to keep it) */
+  .nav-actions .btn-primary {
+    display: none;
+  }
+
+  /* Shops page: 2 shops per row */
+  .food-grid.shop-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .shop-strip {
+    align-items: stretch;
+  }
+
+  .shop-strip:hover {
+    transform: none;
+  }
+
+  .shop-photo {
+    height: 130px;
+    padding: 10px;
+  }
+
+  .shop-photo .status-badge {
+    top: 6px;
+    right: 6px;
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+
+  .shop-strip .grow {
+    padding: 10px;
+  }
+
+  .shop-strip .grow h3 {
+    font-size: 13px;
+  }
+
+  .shop-strip .grow .muted {
+    font-size: 11px !important;
+  }
+
+  .shop-strip-footer {
+    margin-top: 8px;
+  }
+
+  .shop-strip .view-link {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+}
+
+/* Profile / topbar pictures: perfect circle, photo always fills it */
+.profile-avatar-wrapper {
+  flex-shrink: 0;
+}
+
+.profile-avatar,
+.topbar-avatar {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile-avatar img,
+.topbar-avatar img {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover;
+  border-radius: 0;
 }
