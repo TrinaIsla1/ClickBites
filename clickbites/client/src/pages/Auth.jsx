@@ -90,7 +90,7 @@ export default function Auth({ type }) {
     if (pw) return setEr(pw)
     if (!f.elements.t.checked)
       return setEr('Please accept the Terms and Privacy Policy.')
-    const { data, error } = await sb.auth.signUp({
+    const { data, error } = await sb.auth.signUp({ //sign up the user with email and password using supabase
       email: e,
       password: p,
       options: { data: { name, phone: m } },
