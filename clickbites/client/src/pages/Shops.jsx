@@ -1,4 +1,5 @@
 import SearchBox from '../components/SearchBox'
+import ShopMapButton from '../components/ShopMapButton'
 import { ShopCard } from '../components/Cards'
 import { BackLink, EmptyBox } from '../components/ui'
 import { useApp } from '../context/AppContext'
@@ -94,6 +95,11 @@ export default function Shops() {
           </EmptyBox>
         )}
       </div>
+      <ShopMapButton
+        shops={db.businesses}
+        all
+        focusId={q && L.length === 1 ? L[0].id : null}
+      />
     </section>
   )
 }
