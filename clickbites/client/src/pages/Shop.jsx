@@ -18,10 +18,19 @@ export default function Shop() {
       </EmptyBox>
     );
 
-  const P = db.products.filter((p) => p.bid === b.id && p.active),
-    R = db.ratings.filter((r) => r.bid === b.id && r.verified).sort((a, c) => c.at - a.at),
-    im = bImg(b),
-    bn = bBanner(b);
+const P = db.products.filter((p) => p.bid === b.id && p.active),
+  R = db.ratings.filter((r) => r.bid === b.id && r.verified).sort((a, c) => c.at - a.at),
+  im = bImg(b),
+  bn = bBanner(b);
+
+// Google Maps location for this shop
+const mapAddress = b.address
+  ? `${b.address}, Calbayog City, Samar, Philippines`
+  : "";
+
+const mapUrl = mapAddress
+  ? `https://www.google.com/maps?q=${encodeURIComponent(mapAddress)}&output=embed`
+  : "";
 
   const isOwner = user && user.role === "business_owner";
   const isAdmin = user && user.role === "admin";
@@ -129,6 +138,62 @@ export default function Shop() {
           ))}
         </div>
         {body}
+                {/* SHOP LOCATION MAP */}
+        <div className="panel" style={{ marginTop: 25 }}>
+          <div style={{ marginBottom: 15 }}>
+            <h3 style={{ margin: "0 0 6px" }}>
+              📍 Store Location
+            </h3>
+
+            <p className="muted" style={{ margin: 0 }}>
+              {b.address || "This store has not added its address yet."}
+            </p>
+          </div>
+
+          {mapUrl ? (
+            <>
+              <div
+                style={{
+                  width: "100%",
+                  height: "350px",
+                  borderRadius: "12px",
+                  overflow: "hidden",
+                  border: "1px solid var(--border)",
+                }}
+              >
+                <iframe
+                  title={`${b.name} location map`}
+                  src={mapUrl}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  allowFullScreen
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapAddress)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary"
+                style={{
+                  display: "inline-block",
+                  marginTop: 15,
+                  textDecoration: "none",
+                }}
+              >
+                📍 Get Directions
+              </a>
+            </>
+          ) : (
+            <div className="notice">
+              The store owner needs to add a valid store address
+              before the map can be displayed.
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
